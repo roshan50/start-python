@@ -4,7 +4,13 @@
       <h3> all albums </h3>
       <ul>
           {% for album in all_albums %}
-            <li><a href="/music/{{ album.id }}">{{ album.album_title }}</a></li>
+            <li><a href="{% url 'music:detail' album.id %}">{{ album.album_title }}</a></li>
+            <form method="POST" action="{% url 'music:album-delete' album.id %}">
+            {% csrf_token %}
+              <input type="hidden" name="album_id" value="{{ album.id }}">
+              <input type="submit" value="Delete">
+            </form>
+            <a href="{% url 'music:album-update' album.id %}">Edit</a>
           {% endfor %}
       </ul>
   {% else %}
